@@ -3,8 +3,10 @@ package push
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/sns"
@@ -113,19 +115,15 @@ func IsRetryableError(err error) bool {
 		return false
 	}
 
-	// Check for AWS service errors
-	//var apiErr *types.InternalErrorException
-	if ok := err.(*types.InternalErrorException); ok != nil {
+	// Check for AWS service errors using errors.As
+	var internalErr *types.InternalErrorException
+	if errors.As(err, &internalErr) {
 		return true
 	}
 
 	// Check for other 5xx errors by error message
 	errMsg := err.Error()
-	return contains(errMsg, "InternalError") ||
-		contains(errMsg, "ServiceUnavailable") ||
-		contains(errMsg, "Throttling")
-}
-
-func contains(s, substr string) bool {
-	return len(s) >= len(substr) && (s == substr || len(s) > len(substr) && (s[:len(substr)] == substr || s[len(s)-len(substr):] == substr))
+	return strings.Contains(errMsg, "InternalError") ||
+		strings.Contains(errMsg, "ServiceUnavailable") ||
+		strings.Contains(errMsg, "Throttling")
 }

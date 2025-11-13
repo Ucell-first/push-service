@@ -14,13 +14,18 @@ import (
 	"github.com/IBM/sarama"
 )
 
+// PushSender interface for dependency injection
+type PushSender interface {
+	Send(ctx context.Context, msg *push.PushMessage) (string, error)
+}
+
 type Processor struct {
-	sender      *push.Sender
+	sender      PushSender
 	retryConfig config.RetryConfig
 }
 
 // NewProcessor creates a new message processor
-func NewProcessor(sender *push.Sender, retryConfig config.RetryConfig) *Processor {
+func NewProcessor(sender PushSender, retryConfig config.RetryConfig) *Processor {
 	return &Processor{
 		sender:      sender,
 		retryConfig: retryConfig,
