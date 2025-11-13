@@ -8,8 +8,8 @@ import (
 	"math"
 	"time"
 
-	"kafka-push-service/config"
-	"kafka-push-service/internal/push"
+	"github.com/Ucell/push-service/config"
+	"github.com/Ucell/push-service/internal/push"
 
 	"github.com/IBM/sarama"
 )

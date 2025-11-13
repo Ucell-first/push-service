@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	"kafka-push-service/config"
-	"kafka-push-service/internal/kafka"
-	"kafka-push-service/internal/processor"
-	"kafka-push-service/internal/push"
+	"github.com/Ucell/push-service/config"
+	"github.com/Ucell/push-service/internal/kafka"
+	"github.com/Ucell/push-service/internal/processor"
+	"github.com/Ucell/push-service/internal/push"
 )
 
 func main() {
