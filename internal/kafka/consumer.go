@@ -21,7 +21,9 @@ type MessageHandler func(ctx context.Context, msg *sarama.ConsumerMessage) error
 func NewConsumer(brokers []string, groupID string, topics []string) (*Consumer, error) {
 	config := sarama.NewConfig()
 	config.Version = sarama.V2_8_0_0
-	config.Consumer.Group.Rebalance.Strategy = sarama.NewBalanceStrategyRoundRobin()
+	config.Consumer.Group.Rebalance.GroupStrategies = []sarama.BalanceStrategy{
+		sarama.NewBalanceStrategyRoundRobin(),
+	}
 	config.Consumer.Offsets.Initial = sarama.OffsetNewest
 	config.Consumer.Return.Errors = true
 

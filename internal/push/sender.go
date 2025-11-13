@@ -114,7 +114,7 @@ func IsRetryableError(err error) bool {
 	}
 
 	// Check for AWS service errors
-	var apiErr *types.InternalErrorException
+	//var apiErr *types.InternalErrorException
 	if ok := err.(*types.InternalErrorException); ok != nil {
 		return true
 	}
